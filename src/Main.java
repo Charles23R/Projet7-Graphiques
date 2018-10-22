@@ -27,7 +27,7 @@ public class Main extends Application {
         primaryStage.setWidth(500);
         primaryStage.setHeight(500);
         primaryStage.setResizable(true);
-        primaryStage.setTitle("Allo");
+        primaryStage.setTitle("Graphiques");
         BorderPane borderPane = new BorderPane();
 
         //Menu
@@ -49,32 +49,45 @@ public class Main extends Application {
         //Actions menu
         LineChart<String,Number> lineChart = new LineChart<String,Number>(genX(),genY());
         lignes.setOnAction((event) -> {
-            lineChart.setTitle("Températures moyennes");
-            lineChart.getData().addAll(genererLignes(select(primaryStage)));
-            if (lineChart.getData().size()!=0)
-                lineChart.getData().remove(0);
+            try{
+                lineChart.setTitle("Températures moyennes");
+                lineChart.getData().addAll(genererLignes(select(primaryStage)));
+                if (lineChart.getData().size()!=1)
+                    lineChart.getData().remove(0);
 
-            borderPane.setCenter(lineChart);
+                borderPane.setCenter(lineChart);
+            }catch (Exception e){
+                System.out.println(e);
+            }
         });
 
         AreaChart<String,Number> areaChart = new AreaChart<>(genX(),genY());
         regions.setOnAction((event) -> {
-            areaChart.setTitle("Températures moyennes");
-            areaChart.getData().addAll(genererLignes(select(primaryStage)));
-            if (areaChart.getData().size()!=0)
-                areaChart.getData().remove(0);
+            try{
+                areaChart.setTitle("Températures moyennes");
 
-            borderPane.setCenter(areaChart);
+
+                areaChart.getData().addAll(genererLignes(select(primaryStage)));
+                if (areaChart.getData().size()!=1)
+                    areaChart.getData().remove(0);
+                borderPane.setCenter(areaChart);
+            }catch (Exception e){
+                System.out.println(e);
+            }
         });
 
         BarChart<String,Number> barChart = new BarChart<>(genX(),genY());
         barres.setOnAction((event) -> {
-            barChart.setTitle("Températures moyennes");
-            barChart.getData().addAll(genererLignes(select(primaryStage)));
-            if (barChart.getData().size()!=1)
-                barChart.getData().remove(0);
+            try{
+                barChart.setTitle("Températures moyennes");
+                barChart.getData().addAll(genererLignes(select(primaryStage)));
+                if (barChart.getData().size()!=1)
+                    barChart.getData().remove(0);
 
-            borderPane.setCenter(barChart);
+                borderPane.setCenter(barChart);
+            }catch (Exception e){
+                System.out.println(e);
+            }
         });
 
         png.setOnAction((event) -> {
@@ -132,12 +145,10 @@ public class Main extends Application {
             }
 
             return series;
+
         }catch (Exception e){
-            System.out.println("ok");
-            XYChart.Series series = new XYChart.Series();
-            series.setName("Données");
-            series.getData().add(new XYChart.Data("i", 0));
-            return series;
+            System.out.println(e);
+            return null;
         }
     }
 
@@ -163,6 +174,7 @@ public class Main extends Application {
                     ));
             return fichier;
         }catch (Exception e){
+            System.out.println(e);
             return null;
         }
     }
